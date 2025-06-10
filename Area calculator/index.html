@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Area Calculator on Google Maps</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCMTCkRk9CVHeOsfftBQpZ1mU9mjUxep0"></script>
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        let map;
+        let polygon = null;
+        let coordinates = [];
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 20.5937, lng: -279.9629 }, // Default center (San Francisco)
+                zoom: 12
+            });
+
+            map.addListener('click', function (event) {
+                addPoint(event.latLng);
+            });
+        }
+
+        function addPoint(latLng) {
+            coordinates.push(latLng);
+
+            if (polygon) polygon.setMap(null); // Remove old polygon
+
+            polygon = new google.maps.Polygon({
+                paths: coordinates,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#FF0000",
+                fillOpacity: 0.35
+            });
+
+            polygon.setMap(map);
+        }
+
+        function calculateAreaPerimeter() {
+            if (coordinates.length < 3) {
+                alert("Select at least 3 points.");
+                return;
+            }
+
+            let perimeter = google.maps.geometry.spherical.computeLength(polygon.getPath());
+            let area = google.maps.geometry.spherical.computeArea(polygon.getPath());
+
+            alert(`Perimeter: ${perimeter.toFixed(2)} meters\nArea: ${area.toFixed(2)} square meters`);
+        }
+
+        function geocodeAddress() {
+            let address = document.getElementById("address").value;
+            let encodedAddress = encodeURIComponent(address);
+
+            fetch(`https://google-map-places.p.rapidapi.com/maps/api/geocode/json?address=${encodedAddress}&language=en&region=en&result_type=administrative_area_level_1&location_type=APPROXIMATE`, {
+                method: "GET",
+                headers: {
+                    "x-rapidapi-host": "google-map-places.p.rapidapi.com",
+                    "x-rapidapi-key": "ce95a7a778msha95fcfd587ada64p1bf8bcjsna7a3461d87ce"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "OK") {
+                    let location = data.results[0].geometry.location;
+                    map.setCenter(location);
+                    new google.maps.Marker({
+                        position: location,
+                        map: map
+                    });
+                } else {
+                    alert("Address not found.");
+                }
+            })
+            .catch(error => console.error("Error fetching geocode:", error));
+        }
+    </script>
+</head>
+<body onload="initMap()">
+    <h2>Click on the map to create a polygon</h2>
+    
+    <input type="text" id="address" placeholder="Enter address">
+    <button onclick="geocodeAddress()">Find Location</button>
+    
+    <button onclick="calculateAreaPerimeter()">Calculate Area & Perimeter</button>
+    
+    <div id="map" style="width: 100%; height: 500px;"></div>
+</body>
+</html>
+
