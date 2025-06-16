@@ -1,0 +1,88 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+
+
+body{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 20px;
+    background-color:lightcoral;
+
+}
+
+header{
+    background-color: aquamarine;
+    color:black;
+    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+    display: flex   ;
+}
+
+nav ul{
+    list-style-type: none;
+    }
+
+nav ul li{
+    display: inline;
+    margin-right: 35px;
+}    
+
+nav ul li a{
+    color: rgb(5, 17, 28);
+    text-decoration: none ;
+    
+}
+
+h2{
+    color: rgb(249, 152, 24);
+}
+
+main{
+    padding: 20px;
+}
+
+#hero{
+    text-align: center;
+    padding: 100px;
+    background-color: orangered;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: aliceblue; 
+    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJp36rXP7K32NuLTrJDKJPeAv753sABankVs_sw_Q7mlYgZZYS0AvlVe5MFw&s');
+    margin: 0px;
+
+}
+.bttn{
+    color: rgb(251, 247, 246);
+    background-color: rgb(226, 67, 23);
+    text-decoration: none;
+
+    padding: 1px 2px;
+    display: inline-block;
+}
+
+#hero h1{
+    font-size: 30px;
+
+
+}
+   
+#hero p{
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+footer{
+    text-align: center;
+    color: rgb(15, 19, 23);
+    background-color: rgb(197, 238, 240);
+    width:100% ;
+    bottom: 0%;
+    padding:  10px 0px;
+    position: fixed;
+
+}
